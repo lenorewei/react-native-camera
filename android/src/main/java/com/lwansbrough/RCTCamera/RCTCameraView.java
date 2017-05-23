@@ -115,6 +115,19 @@ public class RCTCameraView extends ViewGroup {
         }
     }
 
+    public void setScanAreaTop(int top) {
+        RCTCamera.getInstance().setScanAreaTop(top);
+    }
+    public void setScanAreaLeft(int left) {
+        RCTCamera.getInstance().setScanAreaLeft(left);
+    }
+    public void setScanAreaWidth(int width) {
+        RCTCamera.getInstance().setScanAreaWidth(width);
+    }
+    public void setScanAreaHeight(int height) {
+        RCTCamera.getInstance().setScanAreaHeight(height);
+    }
+
     public void setBarcodeScannerEnabled(boolean barcodeScannerEnabled) {
         RCTCamera.getInstance().setBarcodeScannerEnabled(barcodeScannerEnabled);
     }

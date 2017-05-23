@@ -27,6 +27,11 @@ public class RCTCamera {
     private int _actualDeviceOrientation = 0;
     private int _adjustedDeviceOrientation = 0;
 
+    private int _scanAreaTop;
+    private int _scanAreaLeft;
+    private int _scanAreaWidth;
+    private int _scanAreaHeight;
+
     public static RCTCamera getInstance() {
         return ourInstance;
     }
@@ -159,6 +164,16 @@ public class RCTCamera {
         adjustPreviewLayout(RCTCameraModule.RCT_CAMERA_TYPE_FRONT);
         adjustPreviewLayout(RCTCameraModule.RCT_CAMERA_TYPE_BACK);
     }
+
+    public void setScanAreaTop(int top) { _scanAreaTop = top; }
+    public void setScanAreaLeft(int left) { _scanAreaLeft = left; }
+    public void setScanAreaWidth(int width) { _scanAreaWidth = width; }
+    public void setScanAreaHeight(int height) { _scanAreaHeight = height; }
+
+    public int getScanAreaTop() { return _scanAreaTop; }
+    public int getScanAreaLeft() { return _scanAreaLeft; }
+    public int getScanAreaWidth() { return _scanAreaWidth; }
+    public int getScanAreaHeight() { return _scanAreaHeight; }
 
     public boolean isBarcodeScannerEnabled() {
       return _barcodeScannerEnabled;

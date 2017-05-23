@@ -4,13 +4,14 @@ import {
   NativeAppEventEmitter, // ios
   NativeModules,
   Platform,
+  PixelRatio,
   StyleSheet,
   requireNativeComponent,
   View,
-  ViewPropTypes
 } from 'react-native';
 
 const CameraManager = NativeModules.CameraManager || NativeModules.CameraModule;
+const ratio = PixelRatio.get();
 const CAMERA_REF = 'camera';
 
 function convertNativeProps(props) {
@@ -42,7 +43,7 @@ function convertNativeProps(props) {
   if (typeof props.captureMode === 'string') {
     newProps.captureMode = Camera.constants.CaptureMode[props.captureMode];
   }
-  
+
   if (typeof props.captureTarget === 'string') {
     newProps.captureTarget = Camera.constants.CaptureTarget[props.captureTarget];
   }
@@ -51,6 +52,11 @@ function convertNativeProps(props) {
   if (typeof props.onBarCodeRead !== 'function') {
     newProps.barCodeTypes = [];
   }
+
+  newProps.scanAreaTop = newProps.scanAreaTop * ratio;
+  newProps.scanAreaLeft = newProps.scanAreaLeft * ratio;
+  newProps.scanAreaWidth = newProps.scanAreaWidth * ratio;
+  newProps.scanAreaHeight = newProps.scanAreaHeight * ratio;
 
   newProps.barcodeScannerEnabled = typeof props.onBarCodeRead === 'function'
 
@@ -72,7 +78,7 @@ export default class Camera extends Component {
   };
 
   static propTypes = {
-    ...ViewPropTypes,
+    ...View.propTypes,
     aspect: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
@@ -101,7 +107,6 @@ export default class Camera extends Component {
     onFocusChanged: PropTypes.func,
     onZoomChanged: PropTypes.func,
     mirrorImage: PropTypes.bool,
-    fixOrientation: PropTypes.bool,
     barCodeTypes: PropTypes.array,
     orientation: PropTypes.oneOfType([
       PropTypes.string,
@@ -115,14 +120,17 @@ export default class Camera extends Component {
     type: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    scanAreaTop: PropTypes.number,
+    scanAreaLeft: PropTypes.number,
+    scanAreaWidth: PropTypes.number,
+    scanAreaHeight: PropTypes.number,
   };
 
   static defaultProps = {
     aspect: CameraManager.Aspect.fill,
     type: CameraManager.Type.back,
     orientation: CameraManager.Orientation.auto,
-    fixOrientation: false,
     captureAudio: false,
     captureMode: CameraManager.CaptureMode.still,
     captureTarget: CameraManager.CaptureTarget.cameraRoll,
@@ -133,6 +141,10 @@ export default class Camera extends Component {
     torchMode: CameraManager.TorchMode.off,
     mirrorImage: false,
     barCodeTypes: Object.values(CameraManager.BarCodeType),
+    scanAreaTop: 0,
+    scanAreaLeft: 0,
+    scanAreaWidth: 100,
+    scanAreaHeight: 100,
   };
 
   static checkDeviceAuthorizationStatus = CameraManager.checkDeviceAuthorizationStatus;
@@ -222,7 +234,6 @@ export default class Camera extends Component {
       title: '',
       description: '',
       mirrorImage: props.mirrorImage,
-      fixOrientation: props.fixOrientation,
       ...options
     };
 

@@ -1,6 +1,7 @@
 package com.lwansbrough.RCTCamera;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.uimanager.*;
@@ -48,6 +49,26 @@ public class RCTCameraViewManager extends ViewGroupManager<RCTCameraView> {
     @ReactProp(name = "captureQuality")
     public void setCaptureQuality(RCTCameraView view, String captureQuality) {
         view.setCaptureQuality(captureQuality);
+    }
+
+    @ReactProp(name = "scanAreaTop")
+    public void setAreaTop(RCTCameraView view, int areaTop) {
+        view.setScanAreaTop(areaTop);
+    }
+
+    @ReactProp(name = "scanAreaLeft")
+    public void setAreaLeft(RCTCameraView view, int areaLeft) {
+        view.setScanAreaLeft(areaLeft);
+    }
+
+    @ReactProp(name = "scanAreaWidth")
+    public void setAreaWidth(RCTCameraView view, int areaWidth) {
+        view.setScanAreaWidth(areaWidth);
+    }
+
+    @ReactProp(name = "scanAreaHeight")
+    public void setAreaHeight(RCTCameraView view, int areaHeight) {
+        view.setScanAreaHeight(areaHeight);
     }
 
     @ReactProp(name = "torchMode")
