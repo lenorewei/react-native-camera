@@ -8,7 +8,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.os.AsyncTask;
@@ -327,9 +326,6 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
             int aLeft = RCTCamera.getInstance().getScanAreaLeft();
             int aWidth = RCTCamera.getInstance().getScanAreaWidth();
             int aHeight = RCTCamera.getInstance().getScanAreaHeight();
-
-            Log.v("scanArea", Integer.toString(width));
-            Log.v("scanArea", Integer.toString(aWidth));
 
             try {
 //                PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, 0, 0, width, height, false);
