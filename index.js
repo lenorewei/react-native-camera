@@ -4,14 +4,12 @@ import {
   NativeAppEventEmitter, // ios
   NativeModules,
   Platform,
-  PixelRatio,
   StyleSheet,
   requireNativeComponent,
   View,
 } from 'react-native';
 
 const CameraManager = NativeModules.CameraManager || NativeModules.CameraModule;
-const ratio = PixelRatio.get();
 const CAMERA_REF = 'camera';
 
 function convertNativeProps(props) {
@@ -52,11 +50,6 @@ function convertNativeProps(props) {
   if (typeof props.onBarCodeRead !== 'function') {
     newProps.barCodeTypes = [];
   }
-
-  newProps.scanAreaTop = newProps.scanAreaTop * ratio;
-  newProps.scanAreaLeft = newProps.scanAreaLeft * ratio;
-  newProps.scanAreaWidth = newProps.scanAreaWidth * ratio;
-  newProps.scanAreaHeight = newProps.scanAreaHeight * ratio;
 
   newProps.barcodeScannerEnabled = typeof props.onBarCodeRead === 'function'
 
@@ -125,6 +118,7 @@ export default class Camera extends Component {
     scanAreaLeft: PropTypes.number,
     scanAreaWidth: PropTypes.number,
     scanAreaHeight: PropTypes.number,
+    scanAreaRate: PropTypes.number,
   };
 
   static defaultProps = {
@@ -145,6 +139,7 @@ export default class Camera extends Component {
     scanAreaLeft: 0,
     scanAreaWidth: 100,
     scanAreaHeight: 100,
+    scanAreaRate: 0.4,
   };
 
   static checkDeviceAuthorizationStatus = CameraManager.checkDeviceAuthorizationStatus;

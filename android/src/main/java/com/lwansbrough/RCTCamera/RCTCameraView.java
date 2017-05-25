@@ -115,6 +115,9 @@ public class RCTCameraView extends ViewGroup {
         }
     }
 
+    public void setScanAreaRate(float rate) {
+        RCTCamera.getInstance().setScanAreaRate(rate);
+    }
     public void setScanAreaTop(int top) {
         RCTCamera.getInstance().setScanAreaTop(top);
     }

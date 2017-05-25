@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.os.AsyncTask;
@@ -17,7 +18,11 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -327,8 +332,15 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
             int aWidth = RCTCamera.getInstance().getScanAreaWidth();
             int aHeight = RCTCamera.getInstance().getScanAreaHeight();
 
+            float aRate = RCTCamera.getInstance().getScanAreaRate();
+            float ratio = width / aWidth / aRate;
+
+            aTop = new Float(aTop * ratio).intValue();
+            aLeft = new Float(aLeft * ratio).intValue();
+            aWidth = new Float(aWidth * ratio).intValue();
+            aHeight = new Float(aHeight * ratio).intValue();
+
             try {
-                // PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, 0, 0, width, height, false);
                 PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, aLeft, aTop, aWidth, aHeight, false);
                 BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
                 Result result = _multiFormatReader.decodeWithState(bitmap);

@@ -51,6 +51,11 @@ public class RCTCameraViewManager extends ViewGroupManager<RCTCameraView> {
         view.setCaptureQuality(captureQuality);
     }
 
+    @ReactProp(name = "scanAreaRate")
+    public void setAreaRate(RCTCameraView view, float areaRate) {
+        view.setScanAreaRate(areaRate);
+    }
+
     @ReactProp(name = "scanAreaTop")
     public void setAreaTop(RCTCameraView view, int areaTop) {
         view.setScanAreaTop(areaTop);
