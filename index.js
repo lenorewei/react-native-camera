@@ -4,6 +4,7 @@ import {
   NativeAppEventEmitter, // ios
   NativeModules,
   Platform,
+  Dimensions,
   StyleSheet,
   requireNativeComponent,
   View,
@@ -11,6 +12,8 @@ import {
 
 const CameraManager = NativeModules.CameraManager || NativeModules.CameraModule;
 const CAMERA_REF = 'camera';
+
+const {width, height} = Dimensions.get('screen');
 
 function convertNativeProps(props) {
   const newProps = { ...props };
@@ -44,6 +47,18 @@ function convertNativeProps(props) {
 
   if (typeof props.captureTarget === 'string') {
     newProps.captureTarget = Camera.constants.CaptureTarget[props.captureTarget];
+  }
+
+  if (typeof props.scanInfo === 'object') {
+    const scanInfo = {
+      top: Math.round(props.scanInfo.top || 0),
+      left: Math.round(props.scanInfo.left || 0),
+      width: Math.round(props.scanInfo.width || width),
+      height: Math.round(props.scanInfo.height || height),
+      screenWidth: Math.round(props.scanInfo.screenWidth || width),
+      screenHeight: Math.round(props.scanInfo.screenHeight || height)
+    };
+    newProps.scanInfo = JSON.stringify(scanInfo);
   }
 
   // do not register barCodeTypes if no barcode listener
@@ -114,11 +129,10 @@ export default class Camera extends Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    scanAreaTop: PropTypes.number,
-    scanAreaLeft: PropTypes.number,
-    scanAreaWidth: PropTypes.number,
-    scanAreaHeight: PropTypes.number,
-    scanAreaRate: PropTypes.number,
+    scanInfo: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ])
   };
 
   static defaultProps = {
@@ -135,11 +149,7 @@ export default class Camera extends Component {
     torchMode: CameraManager.TorchMode.off,
     mirrorImage: false,
     barCodeTypes: Object.values(CameraManager.BarCodeType),
-    scanAreaTop: 0,
-    scanAreaLeft: 0,
-    scanAreaWidth: 100,
-    scanAreaHeight: 100,
-    scanAreaRate: 0.4,
+    scanInfo: JSON.stringify({top:0,left:0,width,height,screenWidth:width,screenHeight:height})
   };
 
   static checkDeviceAuthorizationStatus = CameraManager.checkDeviceAuthorizationStatus;
@@ -206,7 +216,6 @@ export default class Camera extends Component {
   render() {
     const style = [styles.base, this.props.style];
     const nativeProps = convertNativeProps(this.props);
-
     return <RCTCamera ref={CAMERA_REF} {...nativeProps} />;
   }
 

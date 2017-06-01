@@ -8,6 +8,8 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.util.Log;
 
+import com.facebook.react.bridge.WritableMap;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +29,7 @@ public class RCTCamera {
     private int _actualDeviceOrientation = 0;
     private int _adjustedDeviceOrientation = 0;
 
-    private float _scanAreaRate;
-    private int _scanAreaTop;
-    private int _scanAreaLeft;
-    private int _scanAreaWidth;
-    private int _scanAreaHeight;
+    private WritableMap _scanInfo;
 
     public static RCTCamera getInstance() {
         return ourInstance;
@@ -166,17 +164,8 @@ public class RCTCamera {
         adjustPreviewLayout(RCTCameraModule.RCT_CAMERA_TYPE_BACK);
     }
 
-    public void setScanAreaRate(float rate) { _scanAreaRate = rate; }
-    public void setScanAreaTop(int top) { _scanAreaTop = top; }
-    public void setScanAreaLeft(int left) { _scanAreaLeft = left; }
-    public void setScanAreaWidth(int width) { _scanAreaWidth = width; }
-    public void setScanAreaHeight(int height) { _scanAreaHeight = height; }
-
-    public float getScanAreaRate() { return _scanAreaRate; }
-    public int getScanAreaTop() { return _scanAreaTop; }
-    public int getScanAreaLeft() { return _scanAreaLeft; }
-    public int getScanAreaWidth() { return _scanAreaWidth; }
-    public int getScanAreaHeight() { return _scanAreaHeight; }
+    public void setScanInfo(WritableMap scanInfo) { _scanInfo = scanInfo; }
+    public WritableMap getScanInfo() { return _scanInfo; }
 
     public boolean isBarcodeScannerEnabled() {
       return _barcodeScannerEnabled;

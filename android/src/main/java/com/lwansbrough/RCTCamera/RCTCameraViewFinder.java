@@ -5,7 +5,6 @@
 package com.lwansbrough.RCTCamera;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.util.Log;
@@ -18,11 +17,7 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -327,18 +322,13 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                 imageData = rotated;
             }
 
-            int aTop = RCTCamera.getInstance().getScanAreaTop();
-            int aLeft = RCTCamera.getInstance().getScanAreaLeft();
-            int aWidth = RCTCamera.getInstance().getScanAreaWidth();
-            int aHeight = RCTCamera.getInstance().getScanAreaHeight();
-
-            float aRate = RCTCamera.getInstance().getScanAreaRate();
-            float ratio = width / aWidth / aRate;
-
-            aTop = new Float(aTop * ratio).intValue();
-            aLeft = new Float(aLeft * ratio).intValue();
-            aWidth = new Float(aWidth * ratio).intValue();
-            aHeight = new Float(aHeight * ratio).intValue();
+            WritableMap scanInfo = RCTCamera.getInstance().getScanInfo();
+            double horizontalRate = (double)width / scanInfo.getInt("screenWidth");
+            double verticalRate = (double)height / scanInfo.getInt("screenHeight");
+            int aLeft = (int)(scanInfo.getInt("left") * horizontalRate);
+            int aWidth = (int)(scanInfo.getInt("width") * horizontalRate);
+            int aTop = (int)(scanInfo.getInt("top") * verticalRate);
+            int aHeight = (int)(scanInfo.getInt("height") * verticalRate);
 
             try {
                 PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, aLeft, aTop, aWidth, aHeight, false);

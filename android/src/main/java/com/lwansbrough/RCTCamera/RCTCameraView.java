@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View;
 
+import com.facebook.react.bridge.WritableMap;
+
 import java.util.List;
 
 public class RCTCameraView extends ViewGroup {
@@ -115,20 +117,8 @@ public class RCTCameraView extends ViewGroup {
         }
     }
 
-    public void setScanAreaRate(float rate) {
-        RCTCamera.getInstance().setScanAreaRate(rate);
-    }
-    public void setScanAreaTop(int top) {
-        RCTCamera.getInstance().setScanAreaTop(top);
-    }
-    public void setScanAreaLeft(int left) {
-        RCTCamera.getInstance().setScanAreaLeft(left);
-    }
-    public void setScanAreaWidth(int width) {
-        RCTCamera.getInstance().setScanAreaWidth(width);
-    }
-    public void setScanAreaHeight(int height) {
-        RCTCamera.getInstance().setScanAreaHeight(height);
+    public void setScanInfo(WritableMap scanInfo) {
+        RCTCamera.getInstance().setScanInfo(scanInfo);
     }
 
     public void setBarcodeScannerEnabled(boolean barcodeScannerEnabled) {
