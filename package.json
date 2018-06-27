@@ -53,7 +53,9 @@
   "bugs": {
     "url": "https://github.com/lwansbrough/react-native-camera/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "prop-types": "^15.5.10"
+  },
   "description": "A Camera component for React Native. Also reads barcodes.",
   "devDependencies": {},
   "directories": {},
